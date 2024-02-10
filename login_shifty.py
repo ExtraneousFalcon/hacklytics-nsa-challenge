@@ -1,21 +1,25 @@
 from datetime import datetime, timedelta
-f = open('logins.txt','r').read().split('\n')
+
+f = open("logins.txt", "r").read().split("\n")
 
 IN = {}
 OUT = {}
 FIRST = {}
 SECOND = {}
 
+
 def diff_time(time1, time2, val):
-    # Convert them to datetime objects, using today's date
+
     datetime1 = datetime.combine(datetime.today(), time1)
     datetime2 = datetime.combine(datetime.today(), time2)
 
-    # Calculate the time difference
     time_delta = datetime2 - datetime1
     val = timedelta(minutes=val)
 
-    return abs(time_delta) <= timedelta(minutes=24*60) - val  and (time_delta > val or time_delta < -val)
+    return abs(time_delta) <= timedelta(minutes=24 * 60) - val and (
+        time_delta > val or time_delta < -val
+    )
+
 
 val = 240
 ans = None
@@ -36,13 +40,12 @@ for line in f:
                     check = True
                     break
             if not check and usr[0] == "j":
-                # print(dt, tm, usr, status)
+
                 ans = usr
                 break
         else:
             FIRST[usr] = dt
             IN[usr] = [tm]
-
 
     else:
         if usr in OUT:
@@ -56,13 +59,13 @@ for line in f:
                     check = True
                     break
             if not check and usr[0] == "j":
-                # print(dt, tm, usr, status)
+
                 ans = usr
                 break
 
         else:
             SECOND[usr] = dt
             OUT[usr] = [tm]
-# print(IN[ans])
-# print(OUT[ans])
+
+
 print(ans)

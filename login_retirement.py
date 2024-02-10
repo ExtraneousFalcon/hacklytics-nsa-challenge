@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-f = open('logins.txt', 'r').read().split('\n')
+
+f = open("logins.txt", "r").read().split("\n")
 
 last = {}
 

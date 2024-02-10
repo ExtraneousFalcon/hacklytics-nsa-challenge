@@ -1,4 +1,4 @@
-f = open('logins.txt','r').read().split('\n')
+f = open("logins.txt", "r").read().split("\n")
 
 curr_dt = None
 users = set()
@@ -11,12 +11,9 @@ for line in f:
         users = set()
     if usr in users:
         if status == "IN" and "e" == usr[0]:
-            print(usr) 
+            print(usr)
             break
-            
-    
+
     else:
         if status == "IN":
             users.add(usr)
-
-    

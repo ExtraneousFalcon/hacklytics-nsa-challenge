@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
-f = open('logins.txt','r').read().split('\n')[:-1]
 
+f = open("logins.txt", "r").read().split("\n")[:-1]
 
 
 def diff_helper(time1, time2):
-    # Convert them to datetime objects, using today's date
+
     datetime1 = datetime.combine(datetime.today(), time1)
     datetime2 = datetime.combine(datetime.today(), time2)
 
@@ -12,17 +12,18 @@ def diff_helper(time1, time2):
     return time_delta
 
 
-
 def diff_time(time1, time2, val):
-    # Convert them to datetime objects, using today's date
+
     datetime1 = datetime.combine(datetime.today(), time1)
     datetime2 = datetime.combine(datetime.today(), time2)
 
-    # Calculate the time difference
     time_delta = datetime2 - datetime1
     val = timedelta(minutes=val)
 
-    return abs(time_delta) <= timedelta(minutes=24*60) - val  and (time_delta > val or time_delta < -val)
+    return abs(time_delta) <= timedelta(minutes=24 * 60) - val and (
+        time_delta > val or time_delta < -val
+    )
+
 
 targ = {}
 dates = {}
@@ -37,12 +38,14 @@ for line in f:
         continue
     if usr not in targ:
         targ[usr] = datetime.strptime(dt + " " + tm, "%Y-%m-%d %H:%M:%S").time()
-    
+
     if usr not in dates:
         dates[usr] = {}
-    dates[usr][dt] = diff_helper(targ[usr], datetime.strptime(dt + " " + tm, "%Y-%m-%d %H:%M:%S").time())
+    dates[usr][dt] = diff_helper(
+        targ[usr], datetime.strptime(dt + " " + tm, "%Y-%m-%d %H:%M:%S").time()
+    )
 
-   
+
 main_per = "s.kinkel"
 cnt = {}
 for usr in rem:
@@ -54,9 +57,12 @@ for line in f:
 
     if usr == main_per or usr not in rem or usr not in dates or dt not in dates[usr]:
         continue
-    if  len(dates[usr]) < 10:
+    if len(dates[usr]) < 10:
         rem.remove(usr)
-    if (abs(dates[main_per][dt] - dates[usr][dt]) > timedelta(minutes=10) and status == "IN"):
+    if (
+        abs(dates[main_per][dt] - dates[usr][dt]) > timedelta(minutes=10)
+        and status == "IN"
+    ):
         cnt[usr] -= 1
         if cnt[usr] < 1:
             rem.remove(usr)
@@ -64,9 +70,6 @@ for line in f:
 
 ans = timedelta(0)
 best = None
-# print(rem)
-
-# print(dates[person])
 
 
 for date in use:
@@ -78,20 +81,13 @@ for date in use:
             tot += 1
     if tot < 1:
         continue
-    s = (s.total_seconds() / tot)
+    s = s.total_seconds() / tot
     s = timedelta(seconds=s)
     if s > ans:
         ans = s
         best = date
 
-# from sortedcontainers import SortedDict
-# d = SortedDict()
-# for person in rem:
-#     for date in dates[person]:
-#         if dates[person][date] > ans:
-#             ans = dates[person][date]
-#             best = date
-#         d[(person,date)] = dates[person][date]  
+
 print(ans)
 print(rem)
 print(best)
@@ -106,4 +102,3 @@ for usr in rem:
 
 print(test)
 print(dt)
-
